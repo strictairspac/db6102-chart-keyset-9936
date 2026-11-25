@@ -1,0 +1,24 @@
+:root {
+  --paper: oklch(0.955 .018 244);
+  --surface: oklch(.982 .008 244);
+  --tint: oklch(.916 0.038 244);
+  --accent: oklch(0.455 0.09 244);
+  --on-accent: oklch(.985 .008 244);
+  --ink: oklch(.235 .037 244);
+  --muted: oklch(.42 .04 244);
+  --rule: oklch(.824 0.034 244);
+  --rail: oklch(0.27 0.052 244);
+  --rail-ink: oklch(.953 .015 244);
+  --rail-highlight: oklch(.34 0.056 244);
+  --signal: oklch(.46 .145 25);
+  --title-font: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+  --body-font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --rail-width: clamp(13rem, 18vw, 19rem);
+  --login-ratio: 3fr;
+  --feature-ratio: 6fr;
+  --split-ratio: 4fr;
+  --radius: 2px;
+  --rail-size: 5px;
+  --cell-min: 7rem;
+}
+.login { background: var(--tint); } .feature { border-block-end: 2px solid var(--rule); }
