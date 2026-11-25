@@ -23,9 +23,11 @@ export async function evidencePage(config, user, route) {
   const runs = (await api.runs()).filter(item => item.status === "done");
   const run = route.id ? await api.run(route.id) : runs[0];
   if (!run?.result) return el("div", {class: "page"},
-    pageHeading(config.modules[3], null), empty("成功执行一个批次后可以查看、签核和下载证据。"),
+    pageHeading(config.modules[3], run?.case_title || null),
+    empty(run?.status === "cancelled" ? "该回执已撤销，不能领取本次计算的结果。" :
+      run?.status === "failed" ? "该回执的计算失败，没有可核收的证据。" :
+      "成功执行一个批次后可以查看、签核和下载证据。"),
     el("a", {href: "#runs"}, config.modules[2]));
-
   const review = await api.review(run.id);
   const issue = errorText();
   const button = el("button", {type: "button", onclick: async () => {

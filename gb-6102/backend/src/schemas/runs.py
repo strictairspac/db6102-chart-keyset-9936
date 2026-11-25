@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from src.constants.job_state import JobState
+from src.constants.job_state import ReceiptState
 
 
 class RunInput(BaseModel):
@@ -9,8 +9,9 @@ class RunInput(BaseModel):
 class RunEntry(BaseModel):
     id: int
     case_id: int
+    job_id: int
     case_title: str
-    status: JobState
+    status: ReceiptState
     parameter: int
     actor: str
     created_at: int

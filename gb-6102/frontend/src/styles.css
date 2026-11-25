@@ -35,7 +35,7 @@ code { overflow-wrap: anywhere; }
 summary { cursor: pointer; color: var(--accent); }
 [role=alert]:empty { display: none; }
 .boot, .error-screen { margin: clamp(1rem, 6vw, 6rem); }
-.feedback, .state-failed { color: var(--signal); overflow-wrap: anywhere; }
+.feedback, .state-failed, .state-cancelled { color: var(--signal); overflow-wrap: anywhere; }
 .login {
   min-height: 100vh; display: grid; grid-template-columns: minmax(0, var(--login-ratio)) minmax(19rem, 2fr);
   align-items: center; padding: clamp(1rem, 7vw, 7.5rem); gap: clamp(1.5rem, 6vw, 6rem);

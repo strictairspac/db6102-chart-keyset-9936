@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 
 from src.config.resources import engine
-from src.constants.job_state import JobState
-from src.controllers.access import identity, reviewer
-from src.controllers.workbench import new_review
+from src.constants.job_state import ReceiptState
+from src.controllers.access import identity, operator, reviewer
+from src.controllers.workbench import cancel_run, new_review
 from src.schemas.reviews import ReviewEntry, ReviewInput
 from src.schemas.runs import RunEntry
 from src.services import reviews, runs
@@ -24,6 +24,11 @@ def run_detail(run_id: int):
         return runs.get(db, run_id)
 
 
+@router.delete("/{run_id}", response_model=RunEntry)
+def withdraw(run_id: int, user=Depends(operator)):
+    return cancel_run(run_id, user)
+
+
 @router.get("/{run_id}/review", response_model=ReviewEntry | None, dependencies=[Depends(identity)])
 def review_detail(run_id: int):
     with engine.connect() as db:
@@ -40,7 +45,7 @@ def sign(run_id: int, form: ReviewInput, user=Depends(reviewer)):
 def export(run_id: int):
     with engine.connect() as db:
         run = runs.get(db, run_id)
-        if run["status"] != JobState.DONE:
+        if run["status"] != ReceiptState.DONE:
             raise HTTPException(409, "没有可导出的执行结果")
         run["review"] = reviews.get(db, run_id)
     return Response(canonical_json(run), media_type="application/json", headers={

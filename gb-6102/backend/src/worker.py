@@ -24,10 +24,13 @@ def work():
         try:
             cache.set("workbench:heartbeat", time.time(), ex=90)
             try:
+                # The durable queue is in the database; one pass runs at most
+                # one job and also picks up jobs whose lease expired, so a
+                # worker restart resumes interrupted receipts without a nudge.
                 if service_one():
                     continue
             except JobFailure as exc:
-                logger.exception("Execution %s failed", exc.run_id)
+                logger.exception("Job %s failed", exc.job_id)
                 fail(exc)
                 continue
             cache.blpop("workbench:wake", timeout=1)
